@@ -1,5 +1,4 @@
 class SoundsController < ApplicationController
-  require 'open-uri'
   
   def scan
     srf_channel = 'dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f'

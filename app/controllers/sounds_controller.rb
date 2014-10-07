@@ -3,20 +3,19 @@ class SoundsController < ApplicationController
   def scan
     srf_channel = 'dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f'
     songlog = JSON.load(open("http://ws.srf.ch/songlog/log/channel/#{srf_channel}/playing.json"))
-    puts "songlog: #{songlog}"
+    new_track = nil
     if songlog['totalElements'] > 0
       @title = songlog['Songlog'][0]['Song']['title']
       @artist = songlog['Songlog'][0]['Song']['Artist']['name']
     
       search_query = "track:#{CGI::escape @title}+artist:#{CGI::escape @artist}"
       result_set = JSON.load(open("https://api.spotify.com/v1/search?q=#{search_query}&type=track&market=CH&limit=1"))
-      
+
       @found_sth = false
       if result_set['tracks']['total'].to_i > 0
         @found_sth = true
         User.each do |u|
           # Get Spotify user
-          puts "spotify_user: #{u.spotify_hash.inspect}"
           spotify_user = RSpotify::User.new(u.spotify_hash)
           # Get playlist
           if u.spotify_playlist_id.nil?
@@ -27,11 +26,14 @@ class SoundsController < ApplicationController
             spotify_playlist = RSpotify::Playlist.find spotify_user.id, u.spotify_playlist_id
           end
           # Add track to playlist
-          puts "result_set['tracks']['items'][0]['id']: #{result_set['tracks']['items'][0]['id']}"
           new_track = RSpotify::Track.find(result_set['tracks']['items'][0]['id'])
           spotify_playlist.add_tracks!([new_track], position: 0) unless spotify_playlist.tracks.first.id == new_track.id
         end
       end
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: new_track }
     end
   end
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   
   get 'sounds/scan' => 'sounds#scan'
   
-  get '/auth/spotify/callback', to: 'users#spotify'
+  get '/auth/spotify/callback', to: 'users#edit'
   
   resources :user
 

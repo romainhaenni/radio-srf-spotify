@@ -1,11 +1,7 @@
 class UsersController < ApplicationController
-  def spotify
+  def edit
     spotify_user = RSpotify::User.new(request.env['omniauth.auth'])
     @user = User.find_by(spotify_id: spotify_user.id) || User.create(name: spotify_user.display_name, spotify_id: spotify_user.id, spotify_hash: spotify_user.to_hash)
-  end
-  
-  def edit
-    
   end
   
   def update

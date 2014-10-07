@@ -19,16 +19,17 @@ class SoundsController < ApplicationController
           puts "spotify_user: #{u.spotify_hash.inspect}"
           spotify_user = RSpotify::User.new(u.spotify_hash)
           # Get playlist
-          if spotify_user.spotify_playlist_id.nil?
+          if u.spotify_playlist_id.nil?
             playlist_name = 'Radio SRF 3 - Sounds!'
             spotify_playlist = spotify_user.create_playlist!(playlist_name, public: false)
-            spotify_user.spotify_playlist_id = spotify_playlist.id
+            u.update_attribute :spotify_playlist_id, spotify_playlist.id
           else
-            spotify_playlist = RSpotify::Playlist.find spotify_user.id, spotify_user.spotify_playlist_id
+            spotify_playlist = RSpotify::Playlist.find spotify_user.id, u.spotify_playlist_id
           end
           # Add track to playlist
           puts "result_set['tracks']['items'][0]['id']: #{result_set['tracks']['items'][0]['id']}"
-          spotify_playlist.add_tracks!([RSpotify::Track.find(result_set['tracks']['items'][0]['id'])], position: 0)
+          new_track = RSpotify::Track.find(result_set['tracks']['items'][0]['id'])
+          spotify_playlist.add_tracks!([new_track], position: 0) unless spotify_playlist.tracks.first.id == new_track.id
         end
       end
     end

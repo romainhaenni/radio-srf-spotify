@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'sounds/scan' => 'sounds#scan'
   
   get '/auth/spotify/callback', to: 'users#spotify'
+  
+  resources :user
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

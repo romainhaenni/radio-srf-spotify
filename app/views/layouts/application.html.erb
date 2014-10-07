@@ -7,8 +7,37 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="container">
-    <%= yield %>
-  </div>
+  <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+          <div class="cover-container">
+            <div class="masthead clearfix">
+              <div class="inner">
+                <h3 class="masthead-brand">Sounds!Spotify</h3>
+                <ul class="nav masthead-nav">
+                  <li class="active">
+                    <%= link_to 'Start', root_path %>
+                  </li>
+                  <li>
+                    <%= link_to 'Scan', sounds_scan_path %>
+                  </li>
+                  <li>
+                    <%= link_to 'Einstellungen', '#' %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="inner cover">
+              <%= yield %>
+            </div>
+
+            <div class="mastfoot">
+              <div class="inner">
+                <p>by <a href="https://twitter.com/romainhaenni">@romainhaenni</a>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>

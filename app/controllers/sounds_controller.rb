@@ -4,10 +4,34 @@ class SoundsController < ApplicationController
     srf_channel = 'dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f'
     songlog = JSON.load(open("http://ws.srf.ch/songlog/log/channel/#{srf_channel}/playing.json"))
     puts "songlog: #{songlog}"
-    @title = songlog['Songlog'][0]['Song']['title']
-    @artist = songlog['Songlog'][0]['Song']['Artist']['name']
+    if songlog['totalElements'] > 0
+      @title = songlog['Songlog'][0]['Song']['title']
+      @artist = songlog['Songlog'][0]['Song']['Artist']['name']
     
-    create_user_playlist('116870260')
+      search_query = "track:#{CGI::escape @title}+artist:#{CGI::escape @artist}"
+      result_set = JSON.load(open("https://api.spotify.com/v1/search?q=#{search_query}&type=track&market=CH&limit=1"))
+      
+      @found_sth = false
+      if result_set['tracks']['total'].to_i > 0
+        @found_sth = true
+        User.each do |u|
+          # Get Spotify user
+          puts "spotify_user: #{u.spotify_hash.inspect}"
+          spotify_user = RSpotify::User.new(u.spotify_hash)
+          # Get playlist
+          if spotify_user.spotify_playlist_id.nil?
+            playlist_name = 'Radio SRF 3 - Sounds!'
+            spotify_playlist = spotify_user.create_playlist!(playlist_name, public: false)
+            spotify_user.spotify_playlist_id = spotify_playlist.id
+          else
+            spotify_playlist = RSpotify::Playlist.find spotify_user.id, spotify_user.spotify_playlist_id
+          end
+          # Add track to playlist
+          puts "result_set['tracks']['items'][0]['id']: #{result_set['tracks']['items'][0]['id']}"
+          spotify_playlist.add_tracks!([RSpotify::Track.find(result_set['tracks']['items'][0]['id'])], position: 0)
+        end
+      end
+    end
   end
 end
 

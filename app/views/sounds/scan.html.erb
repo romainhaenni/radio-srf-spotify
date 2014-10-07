@@ -1,2 +1,6 @@
 <h1>Scan Radio SRF 3</h1>
-<p>Playing right now: <%= @artist %> &mdash; <%= @title %></p>
+<% if @artist %>
+  <p>Wird grad gspielt: <%= @artist %> &mdash; <%= @title %> (auf Spotify<%= @found_sth ? ' ' : ' nicht ' %>gefunden)</p>
+<% else %>
+  <p>Es wird grad kei musig gspielt</p>
+<% end %>

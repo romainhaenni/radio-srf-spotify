@@ -5,7 +5,21 @@ class UsersController < ApplicationController
   end
   
   def update
-    
+    @user = User.find_by params[:user][:id]
+    respond_to do |format|
+      if @user.update_attributes user_params
+        flash[:success] = 'Gespeichert'
+        format.html { render :edit }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
+  
+  private
+  
+  def user_params
+    params.require(:user).permit(:spotify_playlist_id)
   end
 end
 

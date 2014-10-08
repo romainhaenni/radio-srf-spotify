@@ -1,2 +1,10 @@
 <h1>Hoi <%= @user.name.split(' ')[0] %></h1>
-<p>Merci für die Aktivierung! Wir befüllen nun deine Spotify Playlist «Radio SRF 3 - Sounds!» mit in der Sendung gespielten Songs!</p>
+<p>Merci für die Aktivierung!</p>
+<%= form_for @user do |f| %>
+  <div class="form-group">
+    <%= f.label :spotify_playlist_id, 'Spotify Playlist ID' %>
+    <%= f.text_field :spotify_playlist_id, placeholder: "z.B. '38WKxUnzMyxDVMpgiC8NPg'", autofocus: true, class: 'form-control' %>
+    <p class="help-block">Lasse das Field leer und wir erstellen für dich die Playlist, die du in Spotify nach Belieben umbenennen kannst</p>
+  </div>
+  <%= f.submit 'Speichern', class: "btn btn-primary" %>
+<% end %>

@@ -28,6 +28,9 @@
             </div>
 
             <div class="inner cover">
+              <div class="alert alert-success" style="<%= 'display: none' if flash[:success].nil? %>">
+                <%= flash[:success] %>
+              </div>
               <%= yield %>
             </div>
 

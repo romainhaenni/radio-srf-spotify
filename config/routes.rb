@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   get '/auth/spotify/callback', to: 'users#edit'
   
-  resources :user
+  resources :users
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,6 +1,8 @@
-<h1>Scan Radio SRF 3</h1>
+<h1>Jetzt auf Radio SRF 3</h1>
+<br>
 <% if @artist %>
-  <p>Gerade auf dem Äther: <%= @artist %> &mdash; <%= @title %> (auf Spotify<%= @found_sth ? ' ' : ' nicht ' %>gefunden)</p>
+  <p class="lead"><%= @artist %> &mdash; <%= @title %></p>
+  <p>(auf Spotify<%= @found_sth ? ' ' : ' nicht ' %>gefunden)</p>
 <% else %>
   <p>Es wird gerade nichts gespielt...</p>
 <% end %>

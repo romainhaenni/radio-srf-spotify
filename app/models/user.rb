@@ -16,10 +16,10 @@ class User
   before_save :set_schedule
   
   field :starts_at, type: Time
-  validates :starts_at, presence: true
+  validates :starts_at, presence: true, on: :update
   
   field :ends_at, type: Time
-  validate :ends_at_after_starts_at
+  validate :ends_at_after_starts_at, on: :update
   
   def schedule=(attr)
     self[:schedule] = attr.to_hash

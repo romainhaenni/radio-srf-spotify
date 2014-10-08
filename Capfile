@@ -4,7 +4,7 @@ require 'capistrano/setup'
 # Includes default deployment tasks
 require 'capistrano/deploy'
 
-require 'capistrano/rbenv'
+# require 'capistrano/rbenv'
 set :rbenv_type, :user
 set :rbenv_ruby, '2.1.1'
 # set :rbenv_map_bins, %w{rake gem bundle ruby rails}

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:spotify_playlist_id, :starts_at, :ends_at)
+    params.require(:user).permit(:spotify_playlist_id, :starts_at, :ends_at, :activated)
   end
 end
 

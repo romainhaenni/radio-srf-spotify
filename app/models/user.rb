@@ -10,6 +10,7 @@ class User
   field :spotify_id
   field :spotify_playlist_id
   field :spotify_hash, type: Hash
+  field :activated, type: Boolean, default: true
   
   field :schedule, type: Hash
   before_save :set_schedule

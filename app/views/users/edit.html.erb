@@ -17,6 +17,13 @@
       <p class="help-block">Lasse das Field leer und wir erstellen für dich die Playlist, die du in Spotify umbenennen kannst</p>
     </div>
   </div>
+  <div class="form-group">
+    <div class="center checkbox">
+      <label>
+        <%= f.check_box :activated %> Scannen aktiv
+      </label>
+    </div>
+  </div>
   <div class="form-group <%= model_error? @user, :starts_at %>">
     <%= f.label :starts_at, 'Scannen zwischen' %>
     <div class="center">

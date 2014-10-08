@@ -30,20 +30,23 @@ class SoundsController < ApplicationController
   end
   
   def export song
-    User.each do |u|
-      if u.activated and u.schedule.occurring_at?(Time.now)
-        # Get Spotify user
-        spotify_user = RSpotify::User.new(u.spotify_hash)
-        # Get playlist
-        spotify_playlist = RSpotify::Playlist.find u.spotify_id, u.spotify_playlist_id
-        if spotify_playlist.nil?
-          playlist_name = 'Radio SRF 3 @Spotify'
-          spotify_playlist = spotify_user.create_playlist!(playlist_name, public: false)
-          u.update_attribute :spotify_playlist_id, spotify_playlist.id
+    new_track = RSpotify::Track.find(song)
+    if new_track
+      User.each do |u|
+        if u.activated and u.schedule.occurring_at?(Time.now)
+          # Get Spotify user
+          spotify_user = RSpotify::User.new(u.spotify_hash)
+          # Get playlist
+          if u.spotify_playlist_id.empty?
+            playlist_name = 'Radio SRF 3 @Spotify'
+            spotify_playlist = spotify_user.create_playlist!(playlist_name)
+            u.update_attribute :spotify_playlist_id, spotify_playlist.id
+          else
+            spotify_playlist = RSpotify::Playlist.find u.spotify_id, u.spotify_playlist_id
+          end
+          # Add track to playlist
+          spotify_playlist.add_tracks!([new_track], position: 0) if spotify_playlist.tracks.empty? or not spotify_playlist.tracks.first.id == new_track.id
         end
-        # Add track to playlist
-        new_track = RSpotify::Track.find(song)
-        spotify_playlist.add_tracks!([new_track], position: 0) if spotify_playlist.tracks.empty? or not spotify_playlist.tracks.first.id == new_track.id
       end
     end
   end

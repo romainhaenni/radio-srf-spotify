@@ -6,7 +6,6 @@ production:
         - localhost:27017
       options:
   options:
-    use_utc: true  
     raise_not_found_error: false
 # staging:
 #   sessions:

@@ -31,19 +31,21 @@ class SoundsController < ApplicationController
   
   def export song
     User.each do |u|
-      # Get Spotify user
-      spotify_user = RSpotify::User.new(u.spotify_hash)
-      # Get playlist
-      if u.spotify_playlist_id.nil?
-        playlist_name = 'Radio SRF 3 - Sounds!'
-        spotify_playlist = spotify_user.create_playlist!(playlist_name, public: false)
-        u.update_attribute :spotify_playlist_id, spotify_playlist.id
-      else
-        spotify_playlist = RSpotify::Playlist.find spotify_user.id, u.spotify_playlist_id
+      if u.schedule.occurring_at?(Time.now)
+        # Get Spotify user
+        spotify_user = RSpotify::User.new(u.spotify_hash)
+        # Get playlist
+        if u.spotify_playlist_id.nil?
+          playlist_name = 'Radio SRF 3 - Scan'
+          spotify_playlist = spotify_user.create_playlist!(playlist_name, public: false)
+          u.update_attribute :spotify_playlist_id, spotify_playlist.id
+        else
+          spotify_playlist = RSpotify::Playlist.find spotify_user.id, u.spotify_playlist_id
+        end
+        # Add track to playlist
+        new_track = RSpotify::Track.find(song)
+        spotify_playlist.add_tracks!([new_track], position: 0) unless spotify_playlist.tracks.first.id == new_track.id
       end
-      # Add track to playlist
-      new_track = RSpotify::Track.find(song)
-      spotify_playlist.add_tracks!([new_track], position: 0) unless spotify_playlist.tracks.first.id == new_track.id
     end
   end
 end

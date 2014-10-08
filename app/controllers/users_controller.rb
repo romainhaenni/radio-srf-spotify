@@ -11,6 +11,7 @@ class UsersController < ApplicationController
         flash[:success] = 'Gespeichert'
         format.html { render :edit }
       else
+        flash[:warning] = 'Konnte nicht gespeichert werden.'
         format.html { render :edit }
       end
     end
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:spotify_playlist_id)
+    params.require(:user).permit(:spotify_playlist_id, :starts_at, :ends_at)
   end
 end
 

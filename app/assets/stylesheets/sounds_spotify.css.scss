@@ -5,6 +5,12 @@ a:focus {
   color: #2a6496;
 }
 
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
 .nav > li {
   display: inline-block;
 }
@@ -12,4 +18,24 @@ a:focus {
 .nav > li > a:focus,
 .nav > li > a:hover {
   background-color: transparent;
+}
+
+.error_explanation {
+  color: red;
+  margin-bottom: 12px;
+}
+
+div.form-group.error {
+  label {
+    color: red;
+  }
+  .form-control, .input-group-addon {
+    border: 1px solid red;
+  }
+}
+
+#user_spotify_playlist_id {
+  width: 220px;
+  margin-left: auto;
+  margin-right: auto;
 }

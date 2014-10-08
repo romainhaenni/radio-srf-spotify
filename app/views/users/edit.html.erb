@@ -1,10 +1,33 @@
 <h1>Hoi <%= @user.name.split(' ')[0] %></h1>
 <p>Merci für die Aktivierung!</p>
+<% if @user.errors.any? %>
+  <div class="error_explanation">
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_for @user do |f| %>
   <div class="form-group">
     <%= f.label :spotify_playlist_id, 'Spotify Playlist ID' %>
-    <%= f.text_field :spotify_playlist_id, placeholder: "z.B. '38WKxUnzMyxDVMpgiC8NPg'", autofocus: true, class: 'form-control' %>
-    <p class="help-block">Lasse das Field leer und wir erstellen für dich die Playlist, die du in Spotify nach Belieben umbenennen kannst</p>
+    <div class="center">
+      <%= f.text_field :spotify_playlist_id, placeholder: "z.B. '38WKxUnzMyxDVMpgiC8NPg'", autofocus: true, class: 'form-control' %>
+      <p class="help-block">Lasse das Field leer und wir erstellen für dich die Playlist, die du in Spotify umbenennen kannst</p>
+    </div>
+  </div>
+  <div class="form-group <%= model_error? @user, :starts_at %>">
+    <%= f.label :starts_at, 'Scannen zwischen' %>
+    <div class="center">
+      <%= f.datetime_select :starts_at, {minute_step: 5, discard_year: true, discard_month: true, discard_day: true} %>
+    </div>
+  </div>
+  <div class="form-group <%= model_error? @user, :ends_at %>">
+    <%= f.label :ends_at, 'und' %>
+    <div class="center">
+      <%= f.datetime_select :ends_at, {minute_step: 5, discard_year: true, discard_month: true, discard_day: true} %>
+    </div>
   </div>
   <%= f.submit 'Speichern', class: "btn btn-primary" %>
 <% end %>

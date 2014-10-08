@@ -1,6 +1,6 @@
 set :application, 'sounds-spotify'
 set :repo_url, 'git@github.com:romainhaenni/sounds-spotify.git'
-set :log_level, :info
+set :log_level, :debug
 set :keep_releases, 5
 
 # set :default_env, 'staging'

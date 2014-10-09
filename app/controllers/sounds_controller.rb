@@ -34,6 +34,7 @@ class SoundsController < ApplicationController
     if new_track
       User.each do |u|
         if u.activated and u.schedule.occurring_at?(Time.now)
+          RSpotify.authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'])
           # Get Spotify user
           spotify_user = RSpotify::User.new(u.spotify_hash)
           # Get playlist

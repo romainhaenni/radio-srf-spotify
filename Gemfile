@@ -31,8 +31,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spotify
 # Guide on http://rdoc.info/github/guilhermesad/rspotify/master/frames
-# gem 'rspotify'
-gem 'rspotify', github: 'romainhaenni/rspotify'
+gem 'rspotify'
+# gem 'rspotify', github: 'romainhaenni/rspotify'
 
 # Settings http://railsware.com/blog/2013/07/26/globalize-your-configuration/
 gem 'global'

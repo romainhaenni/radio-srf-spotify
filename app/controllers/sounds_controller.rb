@@ -35,6 +35,7 @@ class SoundsController < ApplicationController
       User.each do |u|
         if u.activated and u.schedule.occurring_at?(Time.now)
           # Get Spotify user
+          puts "user db: #{u.spotify_hash.inspect}"
           spotify_user = RSpotify::User.new(u.spotify_hash)
           # Get playlist
           if u.spotify_playlist_id.empty?
@@ -43,9 +44,12 @@ class SoundsController < ApplicationController
             u.update_attribute :spotify_playlist_id, spotify_playlist.id
           else
             spotify_playlist = RSpotify::Playlist.find u.spotify_id, u.spotify_playlist_id
+          puts "user pl: #{spotify_user.inspect}"
           end
           # Add track to playlist
           spotify_playlist.add_tracks!([new_track], position: 0) if spotify_playlist.tracks.empty? or not spotify_playlist.tracks.first.id == new_track.id
+          puts "user tr: #{spotify_user.inspect}"
+          u.update_attribute :spotify_hash, spotify_user.to_hash
         end
       end
     end

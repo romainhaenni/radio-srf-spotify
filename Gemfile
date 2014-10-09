@@ -31,7 +31,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spotify
 # Guide on http://rdoc.info/github/guilhermesad/rspotify/master/frames
-gem 'rspotify'
+# gem 'rspotify'
+gem 'rspotify', github: 'romainhaenni/rspotify'
 
 # Ice Cube for scheduling exports
 gem 'ice_cube'

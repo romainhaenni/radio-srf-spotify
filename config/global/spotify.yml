@@ -1,0 +1,11 @@
+defaults: &defaults
+  api_url: 'https://api.spotify.com/v1'
+  
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults

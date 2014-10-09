@@ -16,6 +16,10 @@ module SoundsSpotify
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib/**/*)
+    
+    # Load global settings
+    Global.environment = Rails.env.to_s
+    Global.config_directory = Rails.root.join('config/global').to_s
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -25,6 +29,6 @@ module SoundsSpotify
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     
-    RSpotify::authenticate('80d40cf15de4422f9f464e72a5428634', '08034c48821a4bc1a53d71e054f48730')
+    RSpotify::authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'])
   end
 end

@@ -34,6 +34,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # gem 'rspotify'
 gem 'rspotify', github: 'romainhaenni/rspotify'
 
+# Settings http://railsware.com/blog/2013/07/26/globalize-your-configuration/
+gem 'global'
+
 # Ice Cube for scheduling exports
 gem 'ice_cube'
 

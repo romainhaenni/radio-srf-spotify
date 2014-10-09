@@ -7,7 +7,7 @@ class SoundsController < ApplicationController
       @artist = songlog['Songlog'][0]['Song']['Artist']['name']
     
       search_query = "track:#{CGI::escape @title}+artist:#{CGI::escape @artist}"
-      result_set = JSON.load(open("https://api.spotify.com/v1/search?q=#{search_query}&type=track&market=CH&limit=1"))
+      result_set = JSON.load(open("#{Global.spotify.api_url}/search?q=#{search_query}&type=track&market=CH&limit=1"))
 
       @found_sth = false
       if result_set['tracks']['total'].to_i > 0
@@ -25,7 +25,7 @@ class SoundsController < ApplicationController
   private
   
   def songlog
-    srf_channel = 'dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f'
+    srf_channel = Global.channels.srf_3
     JSON.load(open("http://ws.srf.ch/songlog/log/channel/#{srf_channel}/playing.json"))
   end
   

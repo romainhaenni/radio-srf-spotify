@@ -1,0 +1,11 @@
+defaults: &defaults
+  srf_3: 'dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f'
+  
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults

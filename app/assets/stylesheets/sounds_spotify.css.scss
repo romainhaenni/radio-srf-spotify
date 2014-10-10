@@ -1,14 +1,46 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-a:focus {
-  color: #2a6496;
+body {
+  background-color: #8fbbcd;
+  background-image: asset-url('echo.jpg');
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1, h2, h3, p {
+  color: #FF6357;
+}
+
+a, a:focus {
+  color: #FF6357;
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+a:hover {
+  color: #FF6357;
+  text-decoration: underline;
+}
+
+label, p.help-block {
+  color: white;
+  background-color: #FF6357;
 }
 
 ul {
   list-style-type: none;
   padding: 0px;
   margin: 0px;
+}
+
+p.lead {
+  color: white;
+  background-color: #FF6357;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-shadow: 0 2px 1px rgba(0,0,0,.5);
 }
 
 .nav > li {
@@ -38,4 +70,8 @@ div.form-group.error {
   width: 220px;
   margin-left: auto;
   margin-right: auto;
+}
+
+a.btn.btn-lg.btn-default {
+  color: rgb(68,111,125);
 }

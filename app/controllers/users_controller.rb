@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find_by params[:user][:id]
+    @user = User.find params[:id]
     respond_to do |format|
       if @user.update_attributes user_params
         flash[:success] = 'Gespeichert'

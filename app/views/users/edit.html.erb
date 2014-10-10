@@ -1,4 +1,4 @@
-<h1>Hoi <%= @user.name.split(' ')[0] %></h1>
+<h1>Hoi <%= @user.name.split(' ').first unless @user.name.nil? %></h1>
 <p>Merci für die Aktivierung!</p>
 <% if @user.errors.any? %>
   <div class="error_explanation">

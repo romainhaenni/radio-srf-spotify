@@ -32,19 +32,9 @@ class User
   protected
   
   def set_schedule
-    unless self[:repeats] == 'none'
-      schedule = Schedule.new(self[:starts_at], end_time: self[:ends_at])
-      schedule.add_recurrence_rule Rule.daily
-      # case self[:repeats]
-      # when 'daily'
-      #   schedule.add_recurrence_rule Rule.daily.until(self[:repeat_ends_on])
-      # when 'weekly'
-      #   schedule.add_recurrence_rule Rule.weekly.until(self[:repeat_ends_on])
-      # when 'monthly'
-      #   schedule.add_recurrence_rule Rule.monthly.until(self[:repeat_ends_on])
-      # end
-      self[:schedule] = schedule.to_hash
-    end
+    schedule = Schedule.new(self[:starts_at], end_time: self[:ends_at])
+    schedule.add_recurrence_rule Rule.daily
+    self[:schedule] = schedule.to_hash
   end
   
   def ends_at_after_starts_at

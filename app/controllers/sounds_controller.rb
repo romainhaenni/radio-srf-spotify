@@ -38,7 +38,7 @@ class SoundsController < ApplicationController
           # Get Spotify user
           spotify_user = RSpotify::User.new(u.spotify_hash)
           # Get playlist
-          if u.spotify_playlist_id.empty?
+          if u.spotify_playlist_id.nil? or u.spotify_playlist_id.empty?
             playlist_name = 'Radio SRF 3 @Spotify'
             spotify_playlist = spotify_user.create_playlist!(playlist_name)
             u.update_attribute :spotify_playlist_id, spotify_playlist.id

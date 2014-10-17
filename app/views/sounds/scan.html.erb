@@ -4,7 +4,8 @@
   <p class="lead"><%= @artist %> &mdash; <%= @title %></p>
   <p>(auf Spotify<%= @track_id ? ' ' : ' nicht ' %>gefunden)</p>
 <% else %>
-  <p>Es wird gerade nichts gespielt...</p>
+  <p class="lead">Es wird gerade nichts gespielt...</p>
 <% end %>
-<br>
+<%= link_to 'Befülle deine Spotify Playlist mit Radio SRF 3 Songs', '/auth/spotify', class: "btn btn-lg btn-default", rel: 'nofollow' %>
+<br><br>
 <%= link_to 'Live Player öffnen', 'http://www.srf.ch/radio-srf-3/player', target: "popup"  %>

@@ -51,11 +51,13 @@ class SoundsController < ApplicationController
   #   artist: name of the artist
   #   title: title of the track by the same artist
   def spotify options
-    search_query = "track:#{CGI::escape options[:title]}+artist:#{CGI::escape options[:artist]}"
-    result_set = JSON.load(open("#{Global.spotify.api_url}/search?q=#{search_query}&type=track&market=CH&limit=1"))
+    if options
+      search_query = "track:#{CGI::escape options[:title]}+artist:#{CGI::escape options[:artist]}"
+      result_set = JSON.load(open("#{Global.spotify.api_url}/search?q=#{search_query}&type=track&market=CH&limit=1"))
 
-    if result_set['tracks']['total'].to_i > 0
-      @track_id = result_set['tracks']['items'][0]['id']
+      if result_set['tracks']['total'].to_i > 0
+        @track_id = result_set['tracks']['items'][0]['id']
+      end
     end
     @track_id
   end

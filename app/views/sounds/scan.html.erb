@@ -2,7 +2,7 @@
 <br>
 <% if @artist %>
   <p class="lead"><%= @artist %> &mdash; <%= @title %></p>
-  <p>(auf Spotify<%= @found_sth ? ' ' : ' nicht ' %>gefunden)</p>
+  <p>(auf Spotify<%= @track_id ? ' ' : ' nicht ' %>gefunden)</p>
 <% else %>
   <p>Es wird gerade nichts gespielt...</p>
 <% end %>

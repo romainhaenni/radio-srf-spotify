@@ -1,36 +1,14 @@
 class SoundsController < ApplicationController
   
   def scan
-    new_track = nil
-    if songlog['totalElements'] > 0
-      @title = songlog['Songlog'][0]['Song']['title']
-      @artist = songlog['Songlog'][0]['Song']['Artist']['name']
-    
-      search_query = "track:#{CGI::escape @title}+artist:#{CGI::escape @artist}"
-      result_set = JSON.load(open("#{Global.spotify.api_url}/search?q=#{search_query}&type=track&market=CH&limit=1"))
-
-      @found_sth = false
-      if result_set['tracks']['total'].to_i > 0
-        @found_sth = true
-        new_track = result_set['tracks']['items'][0]['id']
-        export new_track if params[:export] == 'true'
-      end
-    end
+    spotify(songlog)
     respond_to do |format|
       format.html
-      format.json { render json: new_track }
     end
   end
   
-  private
-  
-  def songlog
-    srf_channel = Global.channels.srf_3
-    JSON.load(open("http://ws.srf.ch/songlog/log/channel/#{srf_channel}/playing.json"))
-  end
-  
-  def export song
-    new_track = RSpotify::Track.find(song)
+  def export
+    new_track = RSpotify::Track.find(spotify(songlog))
     if new_track
       User.each do |u|
         if u.activated and u.schedule.occurring_at?(Time.now)
@@ -51,32 +29,34 @@ class SoundsController < ApplicationController
         end
       end
     end
+    
+    render nothing: true
+  end
+  
+  private
+  
+  def songlog
+    playing = JSON.load(open("http://ws.srf.ch/songlog/log/channel/#{Global.channels.srf_3}/playing.json"))
+    
+    track = nil
+    if playing['totalElements'] > 0
+      @title = playing['Songlog'][0]['Song']['title']
+      @artist = playing['Songlog'][0]['Song']['Artist']['name']
+      track = {artist: @artist, title: @title}
+    end
+    track
+  end
+  
+  # options
+  #   artist: name of the artist
+  #   title: title of the track by the same artist
+  def spotify options
+    search_query = "track:#{CGI::escape options[:title]}+artist:#{CGI::escape options[:artist]}"
+    result_set = JSON.load(open("#{Global.spotify.api_url}/search?q=#{search_query}&type=track&market=CH&limit=1"))
+
+    if result_set['tracks']['total'].to_i > 0
+      @track_id = result_set['tracks']['items'][0]['id']
+    end
+    @track_id
   end
 end
-
-# {
-#   "pageNumber":1,
-#   "pageSize":1,
-#   "totalPages":1,
-#   "totalElements":1,
-#   "Songlog":[
-#     {
-#       "id":"0a0b812e-77ab-4be1-989e-179b37576b73",
-#       "channelId":"dd0fa1ba-4ff6-4e1a-ab74-d7e49057d96f",
-#       "playedDate":"2014-10-06T21:08:40+02:00",
-#       "isPlaying":true,
-#       "Song":{
-#         "title":"A Whiter Shade of Pale",
-#         "Artist":{
-#           "name":"Procol Harum",
-#           "id":"6aa20c94-7844-4865-b1d6-b0491361a448",
-#           "modifiedDate":"2013-02-17T10:57:08+01:00",
-#           "createdDate":"2009-01-02T04:52:54+01:00"
-#         },
-#         "id":"b8a1a891-43f2-47ab-94db-75633fea4ff9",
-#         "modifiedDate":"2013-03-02T19:32:28+01:00",
-#         "createdDate":"2009-01-02T04:52:54+01:00"
-#       }
-#     }
-#   ]
-# }

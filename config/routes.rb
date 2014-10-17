@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
   
   get 'sounds/scan' => 'sounds#scan'
+  get 'sounds/export' => 'sounds#export'
   
   get '/auth/spotify/callback', to: 'users#edit'
   

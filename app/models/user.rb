@@ -21,6 +21,8 @@ class User
   field :ends_at, type: Time
   validate :ends_at_after_starts_at, on: :update
   
+  field :weekend, type: Boolean, default: true
+  
   def schedule=(attr)
     self[:schedule] = attr.to_hash
   end
@@ -33,7 +35,8 @@ class User
   
   def set_schedule
     schedule = Schedule.new(self[:starts_at], end_time: self[:ends_at])
-    schedule.add_recurrence_rule Rule.daily
+    schedule.add_recurrence_rule Rule.weekly.day(:monday, :tuesday, :wednesday, :thursday, :friday)
+    schedule.add_recurrence_rule Rule.weekly.day(:saturday, :sunday) if self[:weekend]
     self[:schedule] = schedule.to_hash
   end
   

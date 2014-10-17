@@ -29,5 +29,12 @@
       <%= f.datetime_select :ends_at, {minute_step: 5, discard_year: true, discard_month: true, discard_day: true} %>
     </div>
   </div>
+  <div class="form-group">
+    <div class="center checkbox">
+      <label>
+        <%= f.check_box :weekend %> auch am Wochenende
+      </label>
+    </div>
+  </div>
   <%= f.submit 'Speichern', class: "btn btn-default" %>
 <% end %>

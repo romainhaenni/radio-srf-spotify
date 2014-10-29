@@ -11,7 +11,6 @@ class SoundsController < ApplicationController
     new_track = RSpotify::Track.find(spotify(songlog))
     if new_track
       time_now = Time.now.dst? ? Time.now : Time.now - 1.hour
-      puts "time_now: #{time_now}"
       User.each do |u|
         if u.activated and u.schedule.occurring_at?(time_now)
           RSpotify.authenticate(ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'])
